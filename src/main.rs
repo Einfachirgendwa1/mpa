@@ -1,3 +1,12 @@
+macro_rules! in_debug_builds {
+    ($($tt:tt)*) => {
+        #[cfg(debug_assertions)]
+        {
+            $($tt)*
+        }
+    };
+}
+
 fn main() {
     let array: *const i32 = &[42; 100] as *const i32;
 
@@ -7,7 +16,10 @@ fn main() {
         index += 1;
 
         let out = unsafe { *array.wrapping_add(index) };
-        println!("{index}: {out}");
-        debug_assert_eq!(out, 42);
+
+        in_debug_builds! {
+            println!("{index}: {out}");
+            assert_eq!(out, 42);
+        }
     }
 }
