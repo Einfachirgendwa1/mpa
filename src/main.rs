@@ -9,7 +9,6 @@ macro_rules! in_debug_builds {
 
 fn main() {
     let array: *const i32 = &[42; 100] as *const i32;
-
     let mut index: usize = 0;
 
     while index < 5000 {
